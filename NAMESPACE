@@ -1,0 +1,2 @@
+useDynLib(TenxRowSumTests)
+exportPattern("^[[:alpha:]]+")

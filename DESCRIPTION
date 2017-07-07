@@ -1,0 +1,13 @@
+Package: TenxRowSumTests
+Type: Package
+Title: Package for testing methods of computing with TENx HDF5 data.
+Version: 0.0.1
+Author: Samuela Pollack <spollack@jimmy.harvard.edu>
+Maintainer:  Samuela Pollack <spollack@jimmy.harvard.edu>
+Description: Looking for a fast way to compute with HDF5 file.
+License: None
+Encoding: UTF-8
+LazyData: true
+Imports: Rcpp
+Depends: Rhdf5lib, rhdf5
+LinkingTo: Rhdf5lib, Rcpp
