@@ -18,13 +18,30 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// f3cpp
+NumericVector f3cpp(int i0, int i1, int nrows, StringVector fnamev);
+RcppExport SEXP TenxRowSumTests_f3cpp(SEXP i0SEXP, SEXP i1SEXP, SEXP nrowsSEXP, SEXP fnamevSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type i0(i0SEXP);
+    Rcpp::traits::input_parameter< int >::type i1(i1SEXP);
+    Rcpp::traits::input_parameter< int >::type nrows(nrowsSEXP);
+    Rcpp::traits::input_parameter< StringVector >::type fnamev(fnamevSEXP);
+    rcpp_result_gen = Rcpp::wrap(f3cpp(i0, i1, nrows, fnamev));
+    return rcpp_result_gen;
+END_RCPP
+}
 
-RcppExport SEXP f0c(SEXP, SEXP, SEXP);
+RcppExport SEXP f0c(SEXP, SEXP, SEXP, SEXP);
+RcppExport SEXP f1c(SEXP, SEXP, SEXP, SEXP);
 RcppExport SEXP getchunk(SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
     {"TenxRowSumTests_f0cpp", (DL_FUNC) &TenxRowSumTests_f0cpp, 3},
-    {"f0c",                   (DL_FUNC) &f0c,                   3},
+    {"TenxRowSumTests_f3cpp", (DL_FUNC) &TenxRowSumTests_f3cpp, 4},
+    {"f0c",                   (DL_FUNC) &f0c,                   4},
+    {"f1c",                   (DL_FUNC) &f1c,                   4},
     {"getchunk",              (DL_FUNC) &getchunk,              2},
     {NULL, NULL, 0}
 };

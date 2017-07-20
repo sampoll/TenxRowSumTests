@@ -1,9 +1,11 @@
 #include <R.h>
+#include <Rdefines.h>
 #include <Rinternals.h>
+
 #include <stdlib.h>
 #include "c_getchunk.h"
 
-SEXP f0c(SEXP i0_r, SEXP i1_r, SEXP nrows_r)   {
+SEXP f0c(SEXP i0_r, SEXP i1_r, SEXP nrows_r, SEXP filename)   {
 
   /* extract data from Rvecs */
   int *i0_p = INTEGER(i0_r);
@@ -18,12 +20,18 @@ SEXP f0c(SEXP i0_r, SEXP i1_r, SEXP nrows_r)   {
   int *count_p = &count;
   int n = count;
 
+  /* get filename */
+  PROTECT(filename = AS_CHARACTER(filename));
+  char *fname = R_alloc(strlen(CHAR(STRING_ELT(filename, 0))), sizeof(char));
+  strcpy(fname, CHAR(STRING_ELT(filename, 0)));
+  UNPROTECT(1);
+
   /* allocate space */
   int *buf_indices = (int *)R_alloc(n, sizeof(int));
   int *buf_data = (int *)R_alloc(n, sizeof(int));
   int *buf_result = (int *)R_alloc(n, sizeof(nrows));
 
-  c_getchunk(offset_p, count_p, buf_indices, buf_data);
+  c_getchunk(offset_p, count_p, buf_indices, buf_data, fname);
 
   /* compute partial row sums */
   int i;
@@ -46,7 +54,7 @@ SEXP f0c(SEXP i0_r, SEXP i1_r, SEXP nrows_r)   {
 
 // Same as f0, except use SEXP integer storage for result 
 // instead of copying from locally allocate array
-SEXP f1c(SEXP i0_r, SEXP i1_r, SEXP nrows_r)   {
+SEXP f1c(SEXP i0_r, SEXP i1_r, SEXP nrows_r, SEXP filename)   {
 
   /* extract data from Rvecs */
   int *i0_p = INTEGER(i0_r);
@@ -61,6 +69,12 @@ SEXP f1c(SEXP i0_r, SEXP i1_r, SEXP nrows_r)   {
   int *count_p = &count;
   int n = count;
 
+  /* get filename */
+  PROTECT(filename = AS_CHARACTER(filename));
+  char *fname = R_alloc(strlen(CHAR(STRING_ELT(filename, 0))), sizeof(char));
+  strcpy(fname, CHAR(STRING_ELT(filename, 0)));
+  UNPROTECT(1);
+
   /* allocate space for indices and data */
   int *buf_indices = (int *)R_alloc(n, sizeof(int));
   int *buf_data = (int *)R_alloc(n, sizeof(int));
@@ -70,7 +84,7 @@ SEXP f1c(SEXP i0_r, SEXP i1_r, SEXP nrows_r)   {
   int *rp = INTEGER(result);
   PROTECT(result);
 
-  c_getchunk(offset_p, count_p, buf_indices, buf_data);
+  c_getchunk(offset_p, count_p, buf_indices, buf_data, fname);
 
   /* compute partial row sums */
   int i;
@@ -89,7 +103,7 @@ SEXP f1c(SEXP i0_r, SEXP i1_r, SEXP nrows_r)   {
 
 
 // For debugging
-SEXP getchunk(SEXP offset, SEXP count)   {
+SEXP getchunk(SEXP offset, SEXP count, SEXP filename)   {
 
   int *offset_p = INTEGER(offset);
   int *count_p = INTEGER(count);
@@ -98,9 +112,14 @@ SEXP getchunk(SEXP offset, SEXP count)   {
   int *buf_indices = (int *)R_alloc(n, sizeof(int));
   int *buf_data = (int *)R_alloc(n, sizeof(int));
 
+  /* get filename */
+  PROTECT(filename = AS_CHARACTER(filename));
+  char *fname = R_alloc(strlen(CHAR(STRING_ELT(filename, 0))), sizeof(char));
+  strcpy(fname, CHAR(STRING_ELT(filename, 0)));
+
   int i;
 
-  c_getchunk(offset_p, count_p, buf_indices, buf_data);
+  c_getchunk(offset_p, count_p, buf_indices, buf_data, fname);
 
   printf("Buffers\n");
   for(i=0;i<n;i++)  {

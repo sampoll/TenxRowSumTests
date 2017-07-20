@@ -9,11 +9,10 @@ f0 <- function(h, i0, i1, nrows, rs)  {
   return(rs)
 }
 
-run.test1 <- function(chunk_size, nchunks)  {
+run.test1 <- function(chunk_size, nchunks, fn)  {
   library(rhdf5)
   H5close()    # close any open file handles
 
-  fn <- "/Users/spollack/Downloads/1M_neurons_filtered_gene_bc_matrices_h5.h5"
   h5f <- H5Fopen(fn)
   nrows <- h5read(h5f, "mm10/shape")[1]
   df <- h5ls(h5f)   # data frame with description of 

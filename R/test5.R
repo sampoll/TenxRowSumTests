@@ -1,16 +1,13 @@
 # R function to process one chunk - wraps C++ function
-f1 <- function(h, i0, i1, nrows, rs, fn)  {
-  ii <- h5read(h, "/mm10/indices", index=list(i0:i1))
-  dd <- h5read(h, "/mm10/data", index=list(i0:i1))
-  rr <- f0cpp(ii, dd, nrows)
+f1b <- function(h, i0, i1, nrows, rs, fname)  {
+  rr <- f3cpp(i0, i1, nrows, fname)
   rs <- rs + rr  
   return(rs)
 }
 
-run.test2 <- function(chunk_size, nchunks, fn)  {
+run.test5 <- function(chunk_size, nchunks, fn)  {
   library(Rcpp)
   library(rhdf5)
-  # sourceCpp("../f0.cpp")
   H5close()    # close any open file handles
 
   h5f <- H5Fopen(fn)
@@ -20,7 +17,7 @@ run.test2 <- function(chunk_size, nchunks, fn)  {
 
   row.sums.2 <- rep(0,nrows)
   for (i in 1:nchunks)  {
-    row.sums.2 = f1(h5f, 1+(i-1)*chunk_size, i*chunk_size, nrows, row.sums.2, fn)
+    row.sums.2 = f1b(h5f, 1+(i-1)*chunk_size, i*chunk_size, nrows, row.sums.2, fn)
   }
   return(row.sums.2)
 }

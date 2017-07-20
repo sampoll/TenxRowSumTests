@@ -15,7 +15,7 @@ run.test4 <- function(chunk_size, nchunks, fn)  {
     if ( i1 > ndata )  {
       i1 <- ndata
     }
-    res <- .Call("f1c", as.integer(i0), as.integer(i1), as.integer(nrows))
+    res <- .Call("f1c", as.integer(i0), as.integer(i1), as.integer(nrows), as.character(fn))
     row.sums.4 = row.sums.4 + res
   }
   return(row.sums.4)

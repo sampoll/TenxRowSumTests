@@ -21,6 +21,8 @@ if (!file.exists(fn))  {
 system.time(r1 <- run.test1(100000, 10, fn))
 system.time(r2 <- run.test2(100000, 10, fn))
 system.time(r3 <- run.test3(100000, 10, fn))
+system.time(r4 <- run.test4(100000, 10, fn))
+system.time(r5 <- run.test5(100000, 10, fn))
 ```
 
 

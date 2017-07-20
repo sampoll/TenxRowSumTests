@@ -6,3 +6,8 @@ f0cpp <- function(ii, dd, nrows) {
     .Call('TenxRowSumTests_f0cpp', PACKAGE = 'TenxRowSumTests', ii, dd, nrows)
 }
 
+#' @export
+f3cpp <- function(i0, i1, nrows, fnamev) {
+    .Call('TenxRowSumTests_f3cpp', PACKAGE = 'TenxRowSumTests', i0, i1, nrows, fnamev)
+}
+

@@ -1,8 +1,9 @@
 #include <stdlib.h>
 #include "hdf5.h"
-#define FILE "/Users/spollack/Downloads/1M_neurons_filtered_gene_bc_matrices_h5.h5"
+/* #define FILE "/Users/spollack/Downloads/1M_neurons_filtered_gene_bc_matrices_h5.h5" */
       
-int c_getchunk(int *chunk_offset_p, int *chunk_count_p, int *indices_out, int *data_out)  {
+int c_getchunk(int *chunk_offset_p, int *chunk_count_p, int *indices_out, int *data_out, 
+  const char *fname)  {
     
    int chunk_offset = *chunk_offset_p;
    int chunk_count = *chunk_count_p;
@@ -18,7 +19,7 @@ int c_getchunk(int *chunk_offset_p, int *chunk_count_p, int *indices_out, int *d
 
    herr_t status;
 
-   file = H5Fopen(FILE, H5F_ACC_RDONLY, H5P_DEFAULT);
+   file = H5Fopen(fname, H5F_ACC_RDONLY, H5P_DEFAULT);
 
    /* Get chunk from indices */
 
